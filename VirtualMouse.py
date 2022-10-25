@@ -5,15 +5,14 @@ import time
 import mouse
 import pyautogui
 
-######################
+######## VARIABEL #######
 wCam, hCam = 640, 480
-frameR = 100 # frame reduction
+frameR = 100
 smoothening = 4.5
-######################
-
 pTime = 0
 plocX,plocY  = 0,0
 clocX,clockY = 0,0
+#########################
 
 # test webcam
 cap = cv2.VideoCapture(0)
@@ -24,7 +23,7 @@ cap.set(4,hCam)
 
 detector = tm.deteksiTangan(maxHands=1)
 wScr, hScr = pyautogui.size()
-print(wScr, hScr) # 1280x720 
+# print(wScr, hScr) -> 1280x720 
 
 while True:
     # 1. Deteksi hand landmark
@@ -41,12 +40,11 @@ while True:
 
         # 3. Cek jika jari diatas/diangkat
         fingers = detector.jariAtas()
-        # print(fingers)
         cv2.rectangle(img,(frameR,frameR),(wCam-frameR, hCam-frameR),
                             (255,0,255),2)
 
-        # 4. Hanya jari tengah yang bisa menggerakkan cursor (moving mode)
-        if fingers[1]==1 and fingers[2]==0:
+        # 4. Hanya jari telunjuk yang bisa menggerakkan cursor (moving mode)
+        if fingers[1]==1:
 
             # 5. Konversi koordinat dari layar PC/laptop untuk mendapatkan posisi cursor
             x3 = np.interp(x1, (frameR, wCam-frameR), (0,wScr))
@@ -62,24 +60,28 @@ while True:
             plocX,plocY = clocX,clocY
 
         # 8. Jika jari telunjuk dan tengah diatas/diangkat masuk ke mode clicking (clicking mode)
-        if fingers[1]==1 and fingers[2]==1:
+        if fingers[2]==1:
             length,img, lineInfo = detector.trackingJarak(8,12,img)
-            # print(length)
             # 9. Klik kiri jika jarak jari dekat (mode klik kiri)
             if length < 40:
                 cv2.circle(img,(lineInfo[4],lineInfo[5]),15,(0,255,0),cv2.FILLED)
-                # click
-                # pyautogui.click()
                 mouse.click()
 
         # mode klik kanan
-        if fingers[0]==1 and fingers[1]==1:
-            length,img, lineInfo = detector.trackingJarak(4,8,img)
-            print(length)
-            if length > 180:
+        if fingers[1]==1 and fingers[4]==1:
+            length,img, lineInfo = detector.trackingJarak(8,20,img)
+            if length > 150:
                 cv2.circle(img,(lineInfo[4],lineInfo[5]),15,(0,255,0),cv2.FILLED)
                 mouse.right_click()
-
+        
+        # mode scroll
+        if fingers[0]==1 and fingers[1]==1:
+            length,img, lineInfo = detector.trackingJarak(4,8,img)
+            if length > 120:
+                mouse.wheel(0.3)
+            else:
+                mouse.wheel(-0.3)
+        
     # 11. Frame Rate
     cTime = time.time()
     fps = 1/(cTime-pTime)
