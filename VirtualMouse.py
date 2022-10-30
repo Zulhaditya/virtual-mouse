@@ -12,6 +12,7 @@ smoothening = 4.5
 pTime = 0
 plocX,plocY  = 0,0
 clocX,clockY = 0,0
+click = 0
 #########################
 
 # test webcam
@@ -44,7 +45,7 @@ while True:
                             (255,0,255),2)
 
         # 4. Hanya jari telunjuk yang bisa menggerakkan cursor (moving mode)
-        if fingers[1]==1:
+        if fingers[0]==0 and fingers[1]==1:
 
             # 5. Konversi koordinat dari layar PC/laptop untuk mendapatkan posisi cursor
             x3 = np.interp(x1, (frameR, wCam-frameR), (0,wScr))
@@ -59,20 +60,25 @@ while True:
             cv2.circle(img,(x1,y1),15,(255,0,255),cv2.FILLED)
             plocX,plocY = clocX,clocY
 
-        # 8. Jika jari telunjuk dan tengah diatas/diangkat masuk ke mode clicking (clicking mode)
-        if fingers[2]==1:
+        # mode double klik
+        if fingers[1]==1 and fingers[2]==1:
             length,img, lineInfo = detector.trackingJarak(8,12,img)
-            # 9. Klik kiri jika jarak jari dekat (mode klik kiri)
             if length < 40:
                 cv2.circle(img,(lineInfo[4],lineInfo[5]),15,(0,255,0),cv2.FILLED)
-                mouse.click()
+                click += 1
+                if click % 5 == 0:
+                    print(click)
+                    mouse.click()
 
         # mode klik kanan
-        if fingers[1]==1 and fingers[4]==1:
+        if fingers[4]==1:
             length,img, lineInfo = detector.trackingJarak(8,20,img)
             if length > 150:
                 cv2.circle(img,(lineInfo[4],lineInfo[5]),15,(0,255,0),cv2.FILLED)
-                mouse.right_click()
+                click += 1
+                if click % 5 == 0:
+                    print(click)
+                    mouse.right_click()
         
         # mode scroll
         if fingers[0]==1 and fingers[1]==1:
