@@ -3,7 +3,6 @@ import mediapipe as mp
 import time
 import math
 import numpy as np
-
 # class deteksi tangan
 class deteksiTangan():
     def __init__(self, mode=False, maxHands=2, detectionCon=0.5, modelComplexity=1, trackCon=0.5):
@@ -81,6 +80,7 @@ class deteksiTangan():
     def trackingJarak(self, p1, p2, img, draw=True, r=15, t=3):
         x1, y1 = self.lmlist[p1][1:]
         x2, y2 = self.lmlist[p2][1:]
+        cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
         cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
 
         if draw:
