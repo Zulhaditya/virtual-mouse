@@ -3,6 +3,7 @@ import mediapipe as mp
 import time
 import math
 import numpy as np
+
 # class deteksi tangan
 class deteksiTangan():
 		def __init__(self, mode=False, maxHands=2, detectionCon=0.5, modelComplexity=1, trackCon=0.5):
@@ -30,6 +31,7 @@ class deteksiTangan():
 										self.mpDraw.draw_landmarks(img, handLms, self.mpHands.HAND_CONNECTIONS)
 				return img
 		
+		# fungsi hand landmark model
 		def trackingPosisi(self, img, handNo=0, draw=True):
 				xList = []
 				yList = []
@@ -52,7 +54,7 @@ class deteksiTangan():
 						xmin, xmax = min(xList), max(xList)
 						ymin, ymax = min(yList), max(yList)
 						bbox = xmin, ymin, xmax, ymax
-
+						
 						if draw:
 								cv2.rectangle(img, (xmin - 20, ymin - 20), (xmax + 20, ymax + 20), (0,255,0), 2)
 				

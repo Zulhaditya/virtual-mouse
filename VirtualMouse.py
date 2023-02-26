@@ -40,7 +40,7 @@ while True:
 		lmList, bbox = detector.trackingPosisi(img)
 		
 		# 2. Deteksi ujung jari telunjuk dan  jari tengah
-		if len(lmList)!= 0:
+		if len(lmList) != 0:
 				# list koordinat jari telunjuk
 				x1,y1 = lmList[8][1:]
 				# list koordinat jari tengah
@@ -52,7 +52,7 @@ while True:
 														(255,0,255),2)
 
 				# 4. Hanya jari telunjuk yang bisa menggerakkan cursor (moving mode)
-				if fingers[0]==0 and fingers[1]==1:
+				if fingers[0] == 0 and fingers[1] == 1:
 
 						# 5. Konversi koordinat dari layar PC/laptop untuk mendapatkan posisi cursor
 						x3 = np.interp(x1, (frameR, wCam-frameR), (0,wScr))
@@ -68,8 +68,8 @@ while True:
 						plocX,plocY = clocX,clocY
 						waktu_eksekusi()
 
-				# mode klik
-				if fingers[1]==1 and fingers[2]==1:
+				# mode klik kiri
+				if fingers[1] == 1 and fingers[2] == 1:
 						length,img, lineInfo = detector.trackingJarak(8,12,img)
 						if length < 40:
 								cv2.circle(img,(lineInfo[4],lineInfo[5]),15,(0,255,0),cv2.FILLED)
@@ -79,18 +79,15 @@ while True:
 										waktu_eksekusi()
 
 				# mode klik kanan
-				if fingers[4]==1:
-						length,img, lineInfo = detector.trackingJarak(8,20,img)
-						if length > 150:
-								cv2.circle(img,(lineInfo[4],lineInfo[5]),15,(0,255,0),cv2.FILLED)
-								click += 1
-								if click % 5 == 0:
-										# print(click)						
-										mouse.right_click()
-										waktu_eksekusi()
+				if fingers[4] == 1:
+						click += 1
+						if click % 5 == 0:
+							# print(click)						
+							mouse.right_click()
+							waktu_eksekusi()
 				
 				# mode scroll
-				if fingers[0]==1 and fingers[1]==1:
+				if fingers[0] == 1 and fingers[1] == 1:
 						length,img, lineInfo = detector.trackingJarak(4,8,img)
 						if length > 120:
 								mouse.wheel(0.3)
@@ -99,13 +96,21 @@ while True:
 								mouse.wheel(-0.3)
 								waktu_eksekusi()
 				
+				# jari tengah
+				if fingers[2] == 1:
+					waktu_eksekusi()
+				
+				# ibu jari
+				if fingers[0] == 1:
+					waktu_eksekusi()
+				
 		# 11. Frame Rate
 		cTime = time.time()
 		fps = 1/(cTime-pTime)
 		pTime = cTime
-		cv2.putText(img,str(int(fps)), (20,50),cv2.FONT_HERSHEY_PLAIN,3,
-								(255,0,0),3)
-		
+		cv2.putText(img, 'FPS:', (20,50), cv2.FONT_HERSHEY_PLAIN,2,(0,255,0),2)
+		cv2.putText(img,str(int(fps)), (90,50),cv2.FONT_HERSHEY_PLAIN,2,
+								(0,255,0),2)
 		# 12. Display
 		cv2.imshow("Virtual Mouse", img)
 		if cv2.waitKey(1) & 0xFF == ord('q'):
