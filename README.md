@@ -52,7 +52,7 @@ Project is: _complete._ <!-- / _complete_ / _no longer being worked on_. reason 
 
 ## Acknowledgements
 
-- This project was inspired by the [MediaPipe](https://developers.google.com/mediapipe/)documentation on the official website.
+- This project was inspired by the [MediaPipe](https://developers.google.com/mediapipe/) documentation on the official website.
 
 ## Contact
 
