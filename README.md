@@ -30,7 +30,7 @@
 
 ## Screenshots
 
-![Example screenshot](./screenshot.png)
+![Example screenshot](./virtual-mouse.png)
 
 ## Installation
 
