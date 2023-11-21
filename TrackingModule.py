@@ -31,6 +31,7 @@ class deteksiTangan():
                     self.mpDraw.draw_landmarks(img, handLms, self.mpHands.HAND_CONNECTIONS)
         return img
     
+    # fungsi hand landmark model
     def trackingPosisi(self, img, handNo=0, draw=True):
         xList = []
         yList = []
@@ -53,7 +54,7 @@ class deteksiTangan():
             xmin, xmax = min(xList), max(xList)
             ymin, ymax = min(yList), max(yList)
             bbox = xmin, ymin, xmax, ymax
-
+            
             if draw:
                 cv2.rectangle(img, (xmin - 20, ymin - 20), (xmax + 20, ymax + 20), (0,255,0), 2)
         
@@ -81,6 +82,7 @@ class deteksiTangan():
     def trackingJarak(self, p1, p2, img, draw=True, r=15, t=3):
         x1, y1 = self.lmlist[p1][1:]
         x2, y2 = self.lmlist[p2][1:]
+        cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
         cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
 
         if draw:
@@ -110,6 +112,7 @@ def main():
 
         cv2.putText(img, str(int(fps)), (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
         cv2.imshow("Image", img)
+
         cv2.waitKey(1)
 
 if __name__ == "__main__":
