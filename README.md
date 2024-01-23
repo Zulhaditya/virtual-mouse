@@ -17,6 +17,8 @@
 
 - This project is my thesis research at Universitas Amikom Yogyakarta.
 - Virtual mouse operates on videos using webcam with a machine learning (ML) model as static data or a continuous stream and outputs hand landmarks in image coordinates, hand landmarks in world coordinates and handedness(left/right hand) of multiple detected hands.
+- This project aims to implement hand gesture recognition on a virtual mouse using the OpenCV library and mediapipe. Testing the virtual mouse system based on the level of low light intensity (50 lux) and bright light (120 lux) and a test distance of 0,5 - 3 ms.
+- The results of this project are the level of accuracy of the system in low light, the average response speed of the system is 0,06 seconds with an accuracy rate of 81%. While testing the system in bright light, the average system response speed is 0,05 seconds with an accuracy rate of 98%.
 
 ## Technologies Used
 
